@@ -1,73 +1,66 @@
 import React, { useState } from 'react';
 import img1 from '../../assets/gambar 1.jpg';
 import img2 from '../../assets/gambar 2.jpg';
+import './home.css';
+
+import { supabase } from '../../lib/supabaseClient';
 
 const Home = () => {
     const [formData, setFormData] = useState({ name: '', email: '' });
     const [submitted, setSubmitted] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.name && formData.email) {
-            console.log('Waitlist Data:', formData);
-            setSubmitted(true);
-            // TODO: Send to backend API
+            setLoading(true);
+            try {
+                const { error } = await supabase
+                    .from('waitlist')
+                    .insert([{ name: formData.name, email: formData.email }]);
+
+                if (error) throw error;
+
+                console.log('Data saved to Supabase');
+                setSubmitted(true);
+            } catch (error) {
+                console.error('Error saving:', error.message);
+                alert('Failed to join waitlist. Please check console for details.');
+            } finally {
+                setLoading(false);
+            }
         }
     };
 
     return (
-        <div className="animate-fade-in" style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '80vh'
-        }}>
+        <div className="home-container animate-fade-in">
             <div className="home-layout-grid">
 
                 {/* Left: Visual Image (Gambar 1) */}
-                <div className="float-animation" style={{ animationDelay: '0s', maxWidth: '280px', width: '100%' }}>
-                    <div className="glass-card" style={{
-                        padding: '1rem',
-                        transform: 'rotate(-2deg)',
-                        background: 'rgba(255,255,255,0.05)'
-                    }}>
+                <div className="visual-card-wrapper float-animation" style={{ animationDelay: '0s' }}>
+                    <div className="glass-card visual-glass-card rotate-left">
                         <img
                             src={img1}
                             alt="Visual 1"
-                            style={{
-                                width: '100%',
-                                height: 'auto',
-                                borderRadius: 'var(--radius-lg)',
-                                display: 'block'
-                            }}
+                            className="visual-image"
                         />
                     </div>
                 </div>
 
                 {/* Center: Text & Form */}
-                <div style={{ maxWidth: '500px', textAlign: 'center', margin: '0 auto' }}>
-                    <h1 className="text-gradient" style={{
-                        fontSize: '3.5rem',
-                        fontWeight: 800,
-                        lineHeight: 1.1,
-                        marginBottom: '1.5rem'
-                    }}>
+                <div className="content-center">
+                    <h1 className="hero-title text-gradient">
                         Join the Future of Decentralization.
                     </h1>
-                    <p style={{
-                        fontSize: '1.25rem',
-                        color: 'var(--text-secondary)',
-                        marginBottom: '2.5rem',
-                        lineHeight: 1.6
-                    }}>
+                    <p className="hero-text">
                         Secure your spot. Be the first to access the next generation platform.
                         Limited spots available for early adopters.
                     </p>
 
                     {!submitted ? (
-                        <form onSubmit={handleSubmit} className="glass-card float-animation" style={{ padding: '2rem' }}>
-                            <div style={{ marginBottom: '1.5rem' }}>
-                                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>Full Name</label>
+                        <form onSubmit={handleSubmit} className="glass-card float-animation waitlist-form-container">
+                            <div className="form-group">
+                                <label className="form-label">Full Name</label>
                                 <input
                                     type="text"
                                     className="input-field"
@@ -77,7 +70,7 @@ const Home = () => {
                                 />
                             </div>
                             <div style={{ marginBottom: '2rem' }}>
-                                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>Email Address</label>
+                                <label className="form-label">Email Address</label>
                                 <input
                                     type="email"
                                     className="input-field"
@@ -91,7 +84,7 @@ const Home = () => {
                             </button>
                         </form>
                     ) : (
-                        <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', borderColor: '#4ade80' }}>
+                        <div className="glass-card success-message" style={{ borderColor: '#4ade80' }}>
                             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎉</div>
                             <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#4ade80' }}>You're on the list!</h3>
                             <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>We'll be in touch soon.</p>
@@ -100,21 +93,12 @@ const Home = () => {
                 </div>
 
                 {/* Right: Visual Image (Gambar 2) */}
-                <div className="float-animation" style={{ animationDelay: '-3s', maxWidth: '280px', width: '100%' }}>
-                    <div className="glass-card" style={{
-                        padding: '1rem',
-                        transform: 'rotate(2deg)',
-                        background: 'rgba(255,255,255,0.05)'
-                    }}>
+                <div className="visual-card-wrapper float-animation" style={{ animationDelay: '-3s' }}>
+                    <div className="glass-card visual-glass-card rotate-right">
                         <img
                             src={img2}
                             alt="Visual"
-                            style={{
-                                width: '100%',
-                                height: 'auto',
-                                borderRadius: 'var(--radius-lg)',
-                                display: 'block'
-                            }}
+                            className="visual-image"
                         />
                     </div>
                 </div>
