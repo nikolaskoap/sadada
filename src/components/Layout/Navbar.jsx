@@ -1,8 +1,10 @@
-import React from 'react';
-import { Search, Bell } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Bell, Menu, X } from 'lucide-react';
 import './navbar.css';
 
 const Navbar = ({ activeTab, onNavigate }) => {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
     const links = [
         { id: 'home', label: 'Home' },
         { id: 'roadmap', label: 'Roadmap' },
@@ -10,12 +12,18 @@ const Navbar = ({ activeTab, onNavigate }) => {
         { id: 'team', label: 'Team' },
     ];
 
+    const handleNavigate = (id) => {
+        onNavigate(id);
+        setIsMobileMenuOpen(false);
+    };
+
     return (
         <nav className="navbar animate-fade-in">
             <div className="navbar-brand">
                 <span className="text-gradient">TCG CARD</span>
             </div>
 
+            {/* Desktop Links */}
             <div className="navbar-links">
                 {links.map(link => (
                     <button
@@ -35,8 +43,34 @@ const Navbar = ({ activeTab, onNavigate }) => {
                 <button style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                     <Bell size={20} color="var(--text-secondary)" />
                 </button>
-                <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(45deg, var(--accent-primary), var(--accent-secondary))' }}></div>
+
+                {/* Mobile Menu Button */}
+                {/* Mobile Menu Button */}
+                <button
+                    className="mobile-menu-btn"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    aria-label="Toggle menu"
+                >
+                    {isMobileMenuOpen ? <X size={24} color="white" /> : <Menu size={24} color="white" />}
+                </button>
+
+                <div className="avatar-placeholder"></div>
             </div>
+
+            {/* Mobile Menu Overlay */}
+            {isMobileMenuOpen && (
+                <div className="mobile-menu">
+                    {links.map(link => (
+                        <button
+                            key={link.id}
+                            className={`mobile-nav-link ${activeTab === link.id ? 'active' : ''}`}
+                            onClick={() => handleNavigate(link.id)}
+                        >
+                            {link.label}
+                        </button>
+                    ))}
+                </div>
+            )}
         </nav>
     );
 };
