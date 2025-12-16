@@ -1,0 +1,97 @@
+.whitepaper-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.whitepaper-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+}
+
+.whitepaper-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+.download-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.whitepaper-content {
+    padding: 4rem;
+}
+
+.section-title {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.section-text {
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+.tech-specs-box {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    /* Fixed to match global radius variable */
+    margin-bottom: 2rem;
+    border: 1px solid var(--glass-border);
+}
+
+.tech-specs-code {
+    font-family: 'Monospace', monospace;
+    /* Fallback */
+    color: var(--accent-secondary);
+    /* Note: Ensure this var exists or is defined, mostly likely from Team.jsx usage it might not be global. Team.jsx used it inline? No, Team.jsx used var(--accent-secondary). Let's check index.css */
+    font-size: 1rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .whitepaper-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .whitepaper-content {
+        padding: 1.5rem;
+    }
+
+    .whitepaper-title {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .section-text {
+        font-size: 1rem;
+    }
+}
