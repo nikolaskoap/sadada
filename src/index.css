@@ -23,6 +23,9 @@
 
   /* Typography */
   --font-sans: 'Outfit', 'Inter', system-ui, sans-serif;
+
+  /* Borders */
+  --glass-border: rgba(255, 255, 255, 0.15);
 }
 
 * {
