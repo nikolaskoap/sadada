@@ -1,62 +1,120 @@
+/* --- LAYOUT UTAMA --- */
 .home-container {
     display: flex;
+    flex-direction: column; /* Mobile first: susun ke bawah */
     align-items: center;
     justify-content: center;
     min-height: 80vh;
-    padding: 2rem 0;
+    padding: 4rem 1rem;
+    position: relative;
+    overflow: hidden; /* Mencegah scrollbar jika ada efek glow keluar layar */
 }
 
-/* Re-using grid from index.css but adding specific overrides if needed */
+/* Jika layout desktop menggunakan Grid (kiri gambar - tengah teks - kanan gambar) */
+@media (min-width: 1024px) {
+    .home-container {
+        flex-direction: row;
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+}
+
+/* --- HERO SECTION (Teks Tengah) --- */
+.content-center {
+    max-width: 600px;
+    text-align: center;
+    margin: 0 auto;
+    z-index: 10;
+    order: 1; /* Di Mobile, teks di urutan pertama */
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+}
+
+/* Efek Teks Gradasi (Signature Style Web3) */
+.hero-title span, 
+.text-gradient {
+    background: linear-gradient(90deg, #99b0ff 0%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-text {
+    font-size: 1.1rem;
+    color: #a0a4b0; /* Warna abu-abu tech */
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+}
+
+/* --- KARTU VISUAL (Kiri & Kanan) --- */
 .visual-card-wrapper {
-    max-width: 280px;
+    max-width: 300px;
     width: 100%;
+    z-index: 5;
+    /* Animasi mengambang halus */
+    animation: float 6s ease-in-out infinite;
 }
 
+/* Tampilan Kartu Kaca (Dark Glassmorphism) */
 .visual-glass-card {
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-lg);
+    padding: 10px;
+    background: rgba(15, 19, 31, 0.6); /* Latar gelap transparan */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Border tipis */
+    border-radius: 16px;
+    backdrop-filter: blur(12px); /* Efek blur di belakang kartu */
+    box-shadow: 0 0 40px rgba(55, 91, 210, 0.15); /* Glow biru halus */
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.visual-glass-card:hover {
+    border-color: #375bd2; /* Border jadi biru saat hover */
+    transform: translateY(-5px);
 }
 
 .visual-image {
     width: 100%;
     height: auto;
-    border-radius: var(--radius-lg);
+    border-radius: 12px;
     display: block;
 }
 
+/* Rotasi Kartu */
 .rotate-left {
-    transform: rotate(-2deg);
+    transform: rotate(-3deg);
 }
 
 .rotate-right {
-    transform: rotate(2deg);
+    transform: rotate(3deg);
 }
 
-.content-center {
-    max-width: 500px;
-    text-align: center;
-    margin: 0 auto;
+@media (min-width: 1024px) {
+    .content-center {
+        order: 2; /* Di Desktop, teks di tengah */
+    }
+    .visual-card-wrapper:first-child {
+        order: 1; /* Gambar kiri */
+    }
+    .visual-card-wrapper:last-child {
+        order: 3; /* Gambar kanan */
+    }
 }
 
-.hero-title {
-    font-size: 2.5rem;
-    /* Smaller default for mobile */
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-}
-
-.hero-text {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    margin-bottom: 2rem;
-    line-height: 1.6;
-}
-
-.waitlist-form-container,
-.success-message {
+/* --- FORM WAITLIST --- */
+.waitlist-form-container {
+    background: #0f131f;
     padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid #1c2235;
+    margin-top: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 
 .form-group {
@@ -68,39 +126,57 @@
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
+    color: #e2e8f0;
+    font-size: 0.9rem;
 }
 
-/* Mobile Specific Adjustments */
-@media (max-width: 1024px) {
-    .home-layout-grid {
-        display: flex;
-        /* Switch to flex column on mobile to control order easily */
-        flex-direction: column;
-        gap: 3rem;
-    }
-
-    /* Order: Top Image -> Text -> Bottom Image OR Text -> Images.
-       Let's go with Text first on strictly mobile views for better UX?
-       Actually, requested design often likes Image Top.
-       Let's stick to DOM order (Image 1 top) unless it looks bad.
-       If user wants "responsive", usually readability is key.
-       Let's put Text first on Mobile!
-    */
-    .content-center {
-        order: -1;
-        /* Moves text to top */
-    }
-
-    .hero-title {
-        font-size: 2.5rem;
-    }
+/* Input Field Style */
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: #080a14;
+    border: 1px solid #2d3748;
+    color: white;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s;
 }
 
+input[type="text"]:focus,
+input[type="email"]:focus {
+    border-color: #375bd2; /* Fokus jadi biru Chainlink */
+}
+
+/* Tombol Submit */
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #375bd2;
+    color: white;
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button[type="submit"]:hover {
+    background-color: #2a46a8;
+}
+
+/* --- ANIMASI --- */
+@keyframes float {
+    0% { transform: translateY(0px) rotate(-3deg); }
+    50% { transform: translateY(-15px) rotate(-3deg); }
+    100% { transform: translateY(0px) rotate(-3deg); }
+}
+
+/* Responsiveness Font */
 @media (min-width: 768px) {
     .hero-title {
         font-size: 3.5rem;
     }
-
     .hero-text {
         font-size: 1.25rem;
     }
