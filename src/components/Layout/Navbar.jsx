@@ -1,44 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Bell, Menu, X, Users } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Bell, Menu, X } from 'lucide-react';
 import './navbar.css';
-import { supabase } from '../../lib/supabaseClient';
-import { maskEmail } from '../../utils/maskEmail';
 
-const Navbar = ({ activeTab, onNavigate }) => {
+const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [recentUsers, setRecentUsers] = useState([]);
-    const [showUserList, setShowUserList] = useState(false);
-
-    useEffect(() => {
-        const fetchUsers = async () => {
-            const { data } = await supabase
-                .from('waitlist')
-                .select('email')
-                .order('created_at', { ascending: false })
-                .limit(5);
-
-            if (data) setRecentUsers(data);
-        };
-
-        fetchUsers();
-        // Optional: Set up real-time subscription here
-    }, []);
 
     const links = [
         { id: 'home', label: 'Home' },
         { id: 'roadmap', label: 'Roadmap' },
         { id: 'whitepaper', label: 'Whitepaper' },
         { id: 'team', label: 'Team' },
+        { id: 'waitlist', label: 'Participants' },
     ];
-    // ... rest of code ...
 
-    const handleNavigate = (id) => {
-        onNavigate(id);
-        setIsMobileMenuOpen(false);
+    const scrollToSection = (id) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+            setIsMobileMenuOpen(false);
+        }
     };
 
     return (
-        <nav className="navbar animate-fade-in">
+        <nav className="navbar animate-fade-in" style={{ position: 'sticky', top: 0, zIndex: 1000, backdropFilter: 'blur(10px)', background: 'rgba(0,0,0,0.7)' }}>
             <div className="navbar-brand">
                 <span className="text-gradient">TCG CARD</span>
             </div>
@@ -48,8 +32,8 @@ const Navbar = ({ activeTab, onNavigate }) => {
                 {links.map(link => (
                     <button
                         key={link.id}
-                        className={`nav-link ${activeTab === link.id ? 'active' : ''}`}
-                        onClick={() => onNavigate(link.id)}
+                        className="nav-link"
+                        onClick={() => scrollToSection(link.id)}
                     >
                         {link.label}
                     </button>
@@ -61,46 +45,10 @@ const Navbar = ({ activeTab, onNavigate }) => {
                     <Search size={20} color="var(--text-secondary)" />
                 </div>
 
-                {/* Recent Users Feature */}
-                <div style={{ position: 'relative' }}
-                    onMouseEnter={() => setShowUserList(true)}
-                    onMouseLeave={() => setShowUserList(false)}
-                >
-                    <button style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                        <Users size={20} color="var(--accent-primary)" />
-                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                            {recentUsers.length > 0 ? recentUsers.length + '+' : ''}
-                        </span>
-                    </button>
-
-                    {showUserList && recentUsers.length > 0 && (
-                        <div className="glass-card" style={{
-                            position: 'absolute',
-                            top: '100%',
-                            right: 0,
-                            padding: '1rem',
-                            minWidth: '220px',
-                            zIndex: 1000,
-                            marginTop: '10px'
-                        }}>
-                            <h4 style={{ marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-primary)' }}>Recently Joined</h4>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                {recentUsers.map((user, idx) => (
-                                    <div key={idx} style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                        <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#4ade80' }}></span>
-                                        {maskEmail(user.email)}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                </div>
-
                 <button style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                     <Bell size={20} color="var(--text-secondary)" />
                 </button>
 
-                {/* Mobile Menu Button */}
                 {/* Mobile Menu Button */}
                 <button
                     className="mobile-menu-btn"
@@ -119,8 +67,8 @@ const Navbar = ({ activeTab, onNavigate }) => {
                     {links.map(link => (
                         <button
                             key={link.id}
-                            className={`mobile-nav-link ${activeTab === link.id ? 'active' : ''}`}
-                            onClick={() => handleNavigate(link.id)}
+                            className="mobile-nav-link"
+                            onClick={() => scrollToSection(link.id)}
                         >
                             {link.label}
                         </button>
