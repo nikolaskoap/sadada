@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-// Pastikan alamatnya mengarah ke folder Layout
-import AppShell from './components/Layout/AppShell'; 
+// Gunakan kurung kurawal jika export di AppShell tidak pakai 'default'
+import { AppShell } from './components/Layout/AppShell'; 
 import Home from './components/Pages/Home';
+// ... rest of the code
 import Roadmap from './components/Pages/Roadmap';
 import Whitepaper from './components/Pages/Whitepaper';
 import Team from './components/Pages/Team';
