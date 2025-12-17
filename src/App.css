@@ -4,57 +4,7 @@
   padding: 2rem;
   text-align: center;
 }
-/* Style untuk layar loading penuh */
-.loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #05060B; /* Warna gelap futuristik */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.8s ease-out, visibility 0.8s;
-}
 
-/* Animasi Ring yang berputar dan bersinar */
-.loader-ring {
-    width: 70px;
-    height: 70px;
-    border: 5px solid rgba(55, 91, 210, 0.1);
-    border-top: 5px solid #375BD2; /* Biru khas Chainlink */
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    box-shadow: 0 0 15px rgba(55, 91, 210, 0.5);
-    margin-bottom: 20px;
-}
-
-.loading-screen p {
-    color: #A0A4B0;
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 3px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    animation: pulse 1.5s infinite;
-}
-
-/* Class untuk menghilangkan loading */
-.loading-hidden {
-    opacity: 0;
-    visibility: hidden;
-}
-
-/* Animasi */
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
 .logo {
   height: 6em;
   padding: 1.5em;
