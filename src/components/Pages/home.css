@@ -1,183 +1,149 @@
-/* --- LAYOUT UTAMA --- */
+/* --- LAYOUT UTAMA DENGAN BACKGROUND DINAMIS --- */
 .home-container {
     display: flex;
-    flex-direction: column; /* Mobile first: susun ke bawah */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 80vh;
+    min-height: 100vh;
     padding: 4rem 1rem;
     position: relative;
-    overflow: hidden; /* Mencegah scrollbar jika ada efek glow keluar layar */
+    background-color: #05060b;
+    overflow: hidden;
 }
 
-/* Jika layout desktop menggunakan Grid (kiri gambar - tengah teks - kanan gambar) */
-@media (min-width: 1024px) {
-    .home-container {
-        flex-direction: row;
-        gap: 2rem;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
+/* --- EFEK BACKGROUND MENARIK --- */
+/* 1. Grid Cybernetic (Garis-garis kotak halus di belakang) */
+.home-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(55, 91, 210, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(55, 91, 210, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(circle at center, black, transparent 80%);
+    pointer-events: none;
+    z-index: 1;
 }
 
-/* --- HERO SECTION (Teks Tengah) --- */
+/* 2. Animated Glow (Cahaya biru & ungu yang bergerak pelan) */
+.home-container::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(55, 91, 210, 0.15) 0%, rgba(138, 43, 226, 0.05) 50%, transparent 70%);
+    transform: translate(-50%, -50%);
+    filter: blur(80px);
+    animation: pulseGlow 10s ease-in-out infinite alternate;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes pulseGlow {
+    from { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    to { transform: translate(-45%, -55%) scale(1.2); opacity: 0.8; }
+}
+
+/* --- CONTENT STYLING --- */
 .content-center {
-    max-width: 600px;
+    position: relative;
+    max-width: 700px;
     text-align: center;
     margin: 0 auto;
     z-index: 10;
-    order: 1; /* Di Mobile, teks di urutan pertama */
 }
 
 .hero-title {
-    font-size: 2.5rem;
-    font-weight: 800;
+    font-size: 3rem;
+    font-weight: 900;
     line-height: 1.1;
     margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
     color: #ffffff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
-/* Efek Teks Gradasi (Signature Style Web3) */
-.hero-title span, 
 .text-gradient {
-    background: linear-gradient(90deg, #99b0ff 0%, #ffffff 100%);
+    background: linear-gradient(135deg, #375bd2 0%, #99b0ff 50%, #ffffff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-clip: text;
+    display: inline-block;
 }
 
 .hero-text {
-    font-size: 1.1rem;
-    color: #a0a4b0; /* Warna abu-abu tech */
-    margin-bottom: 2.5rem;
-    line-height: 1.6;
+    font-size: 1.2rem;
+    color: #a0a4b0;
+    margin-bottom: 3rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* --- KARTU VISUAL (Kiri & Kanan) --- */
+/* --- KARTU VISUAL (Kaca Lebih Modern) --- */
 .visual-card-wrapper {
-    max-width: 300px;
-    width: 100%;
+    position: relative;
+    max-width: 260px;
     z-index: 5;
-    /* Animasi mengambang halus */
-    animation: float 6s ease-in-out infinite;
 }
 
-/* Tampilan Kartu Kaca (Dark Glassmorphism) */
 .visual-glass-card {
-    padding: 10px;
-    background: rgba(15, 19, 31, 0.6); /* Latar gelap transparan */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Border tipis */
-    border-radius: 16px;
-    backdrop-filter: blur(12px); /* Efek blur di belakang kartu */
-    box-shadow: 0 0 40px rgba(55, 91, 210, 0.15); /* Glow biru halus */
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.visual-glass-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 2px; /* Border thickness */
+    background: linear-gradient(to bottom right, rgba(55, 91, 210, 0.5), transparent, rgba(153, 176, 255, 0.3));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
 }
 
 .visual-glass-card:hover {
-    border-color: #375bd2; /* Border jadi biru saat hover */
-    transform: translateY(-5px);
+    transform: scale(1.05) rotate(0deg) !important;
+    border-color: rgba(55, 91, 210, 0.8);
+    box-shadow: 0 0 30px rgba(55, 91, 210, 0.3);
 }
 
 .visual-image {
     width: 100%;
-    height: auto;
-    border-radius: 12px;
-    display: block;
+    border-radius: 14px;
+    filter: brightness(0.9);
 }
 
-/* Rotasi Kartu */
-.rotate-left {
-    transform: rotate(-3deg);
-}
-
-.rotate-right {
-    transform: rotate(3deg);
-}
-
-@media (min-width: 1024px) {
-    .content-center {
-        order: 2; /* Di Desktop, teks di tengah */
-    }
-    .visual-card-wrapper:first-child {
-        order: 1; /* Gambar kiri */
-    }
-    .visual-card-wrapper:last-child {
-        order: 3; /* Gambar kanan */
-    }
-}
-
-/* --- FORM WAITLIST --- */
+/* --- BUTTON & FORM (PREMIUM LOOK) --- */
 .waitlist-form-container {
-    background: #0f131f;
+    background: rgba(15, 19, 31, 0.8);
+    border: 1px solid rgba(55, 91, 210, 0.3);
     padding: 2rem;
-    border-radius: 12px;
-    border: 1px solid #1c2235;
-    margin-top: 2rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-.form-group {
-    margin-bottom: 1.5rem;
-    text-align: left;
-}
-
-.form-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #e2e8f0;
-    font-size: 0.9rem;
-}
-
-/* Input Field Style */
-input[type="text"],
-input[type="email"] {
-    width: 100%;
-    padding: 12px 16px;
-    background-color: #080a14;
-    border: 1px solid #2d3748;
-    color: white;
-    border-radius: 6px;
-    outline: none;
-    transition: border-color 0.2s;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus {
-    border-color: #375bd2; /* Fokus jadi biru Chainlink */
-}
-
-/* Tombol Submit */
 button[type="submit"] {
-    width: 100%;
-    padding: 12px;
-    background-color: #375bd2;
-    color: white;
-    font-weight: 700;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+    background: linear-gradient(90deg, #375bd2, #6a82fb);
+    box-shadow: 0 4px 15px rgba(55, 91, 210, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-button[type="submit"]:hover {
-    background-color: #2a46a8;
-}
-
-/* --- ANIMASI --- */
-@keyframes float {
-    0% { transform: translateY(0px) rotate(-3deg); }
-    50% { transform: translateY(-15px) rotate(-3deg); }
-    100% { transform: translateY(0px) rotate(-3deg); }
-}
-
-/* Responsiveness Font */
-@media (min-width: 768px) {
-    .hero-title {
-        font-size: 3.5rem;
-    }
-    .hero-text {
-        font-size: 1.25rem;
-    }
+/* --- RESPONSIVE ADJUSTMENTS --- */
+@media (max-width: 1024px) {
+    .home-container { padding-top: 6rem; }
+    .hero-title { font-size: 2.5rem; }
 }
