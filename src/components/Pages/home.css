@@ -1,149 +1,107 @@
-/* --- LAYOUT UTAMA DENGAN BACKGROUND DINAMIS --- */
 .home-container {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    padding: 4rem 1rem;
-    position: relative;
-    background-color: #05060b;
-    overflow: hidden;
+    min-height: 80vh;
+    padding: 2rem 0;
 }
 
-/* --- EFEK BACKGROUND MENARIK --- */
-/* 1. Grid Cybernetic (Garis-garis kotak halus di belakang) */
-.home-container::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        linear-gradient(rgba(55, 91, 210, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(55, 91, 210, 0.05) 1px, transparent 1px);
-    background-size: 50px 50px;
-    mask-image: radial-gradient(circle at center, black, transparent 80%);
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* 2. Animated Glow (Cahaya biru & ungu yang bergerak pelan) */
-.home-container::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 800px;
-    height: 800px;
-    background: radial-gradient(circle, rgba(55, 91, 210, 0.15) 0%, rgba(138, 43, 226, 0.05) 50%, transparent 70%);
-    transform: translate(-50%, -50%);
-    filter: blur(80px);
-    animation: pulseGlow 10s ease-in-out infinite alternate;
-    z-index: 0;
-    pointer-events: none;
-}
-
-@keyframes pulseGlow {
-    from { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-    to { transform: translate(-45%, -55%) scale(1.2); opacity: 0.8; }
-}
-
-/* --- CONTENT STYLING --- */
-.content-center {
-    position: relative;
-    max-width: 700px;
-    text-align: center;
-    margin: 0 auto;
-    z-index: 10;
-}
-
-.hero-title {
-    font-size: 3rem;
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-    color: #ffffff;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-}
-
-.text-gradient {
-    background: linear-gradient(135deg, #375bd2 0%, #99b0ff 50%, #ffffff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: inline-block;
-}
-
-.hero-text {
-    font-size: 1.2rem;
-    color: #a0a4b0;
-    margin-bottom: 3rem;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* --- KARTU VISUAL (Kaca Lebih Modern) --- */
+/* Re-using grid from index.css but adding specific overrides if needed */
 .visual-card-wrapper {
-    position: relative;
-    max-width: 260px;
-    z-index: 5;
+    max-width: 280px;
+    width: 100%;
 }
 
 .visual-glass-card {
-    padding: 8px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.visual-glass-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 20px;
-    padding: 2px; /* Border thickness */
-    background: linear-gradient(to bottom right, rgba(55, 91, 210, 0.5), transparent, rgba(153, 176, 255, 0.3));
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-}
-
-.visual-glass-card:hover {
-    transform: scale(1.05) rotate(0deg) !important;
-    border-color: rgba(55, 91, 210, 0.8);
-    box-shadow: 0 0 30px rgba(55, 91, 210, 0.3);
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
 }
 
 .visual-image {
     width: 100%;
-    border-radius: 14px;
-    filter: brightness(0.9);
+    height: auto;
+    border-radius: var(--radius-lg);
+    display: block;
 }
 
-/* --- BUTTON & FORM (PREMIUM LOOK) --- */
-.waitlist-form-container {
-    background: rgba(15, 19, 31, 0.8);
-    border: 1px solid rgba(55, 91, 210, 0.3);
+.rotate-left {
+    transform: rotate(-2deg);
+}
+
+.rotate-right {
+    transform: rotate(2deg);
+}
+
+.content-center {
+    max-width: 500px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    /* Smaller default for mobile */
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.hero-text {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.waitlist-form-container,
+.success-message {
     padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-button[type="submit"] {
-    background: linear-gradient(90deg, #375bd2, #6a82fb);
-    box-shadow: 0 4px 15px rgba(55, 91, 210, 0.4);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
 }
 
-/* --- RESPONSIVE ADJUSTMENTS --- */
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+/* Mobile Specific Adjustments */
 @media (max-width: 1024px) {
-    .home-container { padding-top: 6rem; }
-    .hero-title { font-size: 2.5rem; }
+    .home-layout-grid {
+        display: flex;
+        /* Switch to flex column on mobile to control order easily */
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    /* Order: Top Image -> Text -> Bottom Image OR Text -> Images.
+       Let's go with Text first on strictly mobile views for better UX?
+       Actually, requested design often likes Image Top.
+       Let's stick to DOM order (Image 1 top) unless it looks bad.
+       If user wants "responsive", usually readability is key.
+       Let's put Text first on Mobile!
+    */
+    .content-center {
+        order: -1;
+        /* Moves text to top */
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .hero-title {
+        font-size: 3.5rem;
+    }
+
+    .hero-text {
+        font-size: 1.25rem;
+    }
 }
